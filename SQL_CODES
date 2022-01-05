@@ -1,0 +1,137 @@
+##Query 1: We want to know the types of movie ratings that we have in our database.
+
+SELECT DISTINCT(rating) FROM film;
+
+##Query 2: How many unique payment amounts are there?
+
+SELECT COUNT(DISTINCT (amount)) FROM payment;
+
+##Query3: Find the information of customer named Jared.
+
+SELECT * FROM customer
+WHERE first_name = 'Jared'
+
+##Query4_Challange: Which rated R movies has rental rate greater than 4 and replacement cost is greater or equal to $19.99
+
+SELECT * FROM film
+WHERE rental_rate > 4 and replacement_cost >= 19.99
+AND rating='R';
+
+##Query5_Challange: Customer forgot wallet at our store! we need to track down email information of customer named Nancy Thomas.
+
+SELECT email FROM customer
+WHERE first_name = 'Nancy'
+AND last_name = 'Thomas'
+
+##Query6_Challange: Customer wanted to know more about movie "Outlaw Hanky". Can you provide the description of the movie?
+
+SELECT description
+FROM film
+Where title = 'Outlaw Hanky';
+
+##Query7_Challange: Can you get the phone number of customer who lives at '259 ipoh Drive'?
+
+SELECT phone FROM address
+WHERE address='259 Ipoh Drive'
+
+##Query8_Challange: We want to reward our first 10 paying customers.
+##What are the cusotmer ids of the first 10 customers who created a payment?
+
+SELECT customer_id FROM payment
+ORDER BY payment_date ASC
+LIMIT 10;
+
+##Query9_Challange: Customer wants to quickly rent a video to watch during their short lunch break.
+##What are the titles of the 5 shortest movies?
+
+SELECT title, length
+FROM film
+ORDER BY length ASC
+LIMIT 5;
+
+
+##Query10_Challange: If the customer can watch any movie that is 50 minutes or less in run time,
+how many options does the customer have?
+
+SELECT COUNT(title)
+FROM film
+WHERE length<= 50
+
+##Pattern Matching: LIKE operator
+#Query11: How many customer are there whose first name starts with J and last name starts with S?
+
+SELECT * FROM customer
+WHERE first_name LIKE 'J%' AND last_name LIKE 'S%'
+
+##Query12: To display the first name of the customers whose name has only one character before "her".
+
+SELECT * FROM customer
+WHERE first_name LIKE '_her%'
+
+##Query13_challange: How many actors have a first name that starts with the letter P?
+
+SELECT count(*) FROM actor
+WHERE first_name LIKE 'P%';
+
+##Query14_challange: How amny unique districts are our customers from?
+
+SELECT COUNT(DISTINCT(district))
+FROM address;
+
+##Query15_Challange: How many films have a rating of R and a replacement cost between $5 and $15?
+
+SELECT COUNT(*)
+FROM film
+WHERE rating = 'R'
+And replacement_cost BETWEEN 5 AND 15;
+
+##Query16_Challange: How many films have the word Truman somewhere in the title?
+
+SELECT COUNT(*)
+FROM film
+WHERE title LIKE '%Truman%';
+
+##Query17_Challange: We have two staff members, with Staff IDS 1 and 2. We want to give a bonus
+to the staff member that handled the most payment.(Most in terms of number of payments processed,
+not total dollar amount). How many payments did each staff memeber handle and who gets the bonus?
+Result: Staff id with 2 should get bonus.
+
+SELECT staff_id, COUNT(amount)
+FROM payment
+GROUP BY staff_id
+
+##Corporate HQ is conducting a study on the relationship between replacement cost and a movie
+MPAA rating. What is the average replavement cost per MPAA rating?
+
+SELECT rating,
+ROUND(AVG(replacement_cost),3)
+FROM film
+GROUP BY rating
+Order BY AVG(replacement_cost) DESC
+
+##We are running a promotion to reward our top 5 customer with coipons. What are the customer ids of the top 5 cusotmers by total spend?
+
+SELECT customer_id, SUM(amount)
+FROM payment
+GROUP BY customer_id
+ORDER BY SUM(amount) DESC
+LIMIT 5;
+
+## Company is lunching a platinum service for our most loyal customers. Platinum status is
+assigned to those customers that have 40 or more transaction payments. What cusotmer_ids are
+eligible for platinum status?
+
+SELECT customer_id, COUNT(*)
+FROM payment
+GROUP BY customer_id
+HAVING COUNT(*)>=40;
+
+##What are the customer ids of customers who have spent more than $100 in payment transactions with our staff_id
+member 2?
+
+SELECT customer_id, SUM(amount)
+FROM payment
+Where staff_id=2
+GROUP BY customer_id
+HAVING SUM(amount)>100
+ORDER BY SUM(amount)DESC

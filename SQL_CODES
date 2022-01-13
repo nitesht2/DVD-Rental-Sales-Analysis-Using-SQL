@@ -166,3 +166,24 @@ INNER JOIN customer
 ON address.address_id = customer.address_id
 WHERE district = 'California'
 
+## Customer is huge fan of the actor "Nick Wahlberg" and wants to know all the movies he is in. We need to list all of his movies.
+
+SELECT title, first_name, last_name
+FROM film_actor
+INNER JOIN actor
+ON film_actor.actor_id = actor.actor_id
+INNER JOIN film
+ON film_actor.film_id = film.film_id
+WHERE first_name = 'Nick'
+AND last_name = 'Wahlberg'
+
+##During which months did payments occur.
+
+SELECT
+DISTINCT(TO_CHAR(payment_date,'MONTH'))
+FROM Payment
+
+##Format your answer to return back the full month name.
+SELECT COUNT(*)
+FROM payment
+WHERE EXTRACT(dow FROM payment_date) = 1

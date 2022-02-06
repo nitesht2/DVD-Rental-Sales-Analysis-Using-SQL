@@ -1,4 +1,4 @@
-Using PostgreSQL quickly and effectively on the DVD Rental database for analysis. 
+I used PostgreSQL on the DVD Rental database for analysis. 
 
 - Used the basics SQL syntax and analyzed data using aggregate functions with GROUP BY commands
 

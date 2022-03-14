@@ -1,4 +1,4 @@
-## Query 1: We want to know the types of movie ratings that we have in our database.
+##Query 1: We want to know the types of movie ratings that we have in our database.
 
 SELECT DISTINCT(rating) FROM film;
 

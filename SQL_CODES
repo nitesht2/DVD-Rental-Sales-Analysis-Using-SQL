@@ -187,3 +187,15 @@ FROM Payment
 SELECT COUNT(*)
 FROM payment
 WHERE EXTRACT(dow FROM payment_date) = 1
+
+#SUBQUERIES
+##Subquery using where clause:
+
+Show the film_id, title, and rental rate of films with rental rates greater than the average rental rate. 
+
+SELECT film_id, rental_rate, title
+FROM film
+WHERE rental_rate>
+(SELECT AVG(rental_rate)
+FROM film)
+

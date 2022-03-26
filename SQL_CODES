@@ -230,8 +230,7 @@ ON i.film_id=f.film_id;
 ##SUBQUERY using SELECT statement
 ##Show the store ID and customer count per store. Add a third column showing the total amount of revenue for the whole company. 
 
-SELECT store_id, COUNT(customer_id), (SELECT SUM(amount)
-									 FROM payment)
+SELECT store_id, COUNT(customer_id), (SELECT SUM(amount) FROM payment)
 FROM customer
 GROUP BY 1;
 

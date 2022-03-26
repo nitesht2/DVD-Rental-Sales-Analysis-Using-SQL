@@ -189,13 +189,51 @@ FROM payment
 WHERE EXTRACT(dow FROM payment_date) = 1
 
 #SUBQUERIES
-##Subquery using where clause:
+##Subquery using WHERE clause:
 
-Show the film_id, title, and rental rate of films with rental rates greater than the average rental rate. 
+##Show the film_id, title, and rental rate of films with rental rates greater than the average rental rate. 
 
 SELECT film_id, rental_rate, title
 FROM film
 WHERE rental_rate>
 (SELECT AVG(rental_rate)
 FROM film)
+
+##Subquery using FROM clause:
+##Company is planning to offer a platinum credit card to customers who had at least 36 rentals.
+##How many customers made at least 36 rental transactions? How much revenue have they brought in to the company?
+
+SELECT COUNT(p.customer_id), SUM(amount)
+FROM (SELECT customer_id, COUNT(rental_id)
+	FROM rental
+	GROUP BY 1
+	HAVING COUNT(rental_id)>= 36
+	ORDER BY 1) sub1
+JOIN payment p
+ON sub1.customer_id = p.customer_id
+ORDER BY 2;
+
+## Show the list of unique films(film ID and title) rented by customers who paid an average amount of $4 or more to the company for any particular transaction
+
+SELECT DISTINCT f.film_id, title
+FROM(SELECT customer_id, ROUND(AVG(amount)) AS mean_payment
+	FROM payment
+	GROUP BY 1
+	HAVING ROUND(AVG(amount))>=4) sub1
+JOIN rental r
+ON sub1.customer_id=r.customer_id
+JOIN inventory i
+ON r. inventory_id=i.inventory_id
+JOIN film f
+ON i.film_id=f.film_id;
+
+##SUBQUERY using SELECT statement
+##Show the store ID and customer count per store. Add a third column showing the total amount of revenue for the whole company. 
+
+SELECT store_id, COUNT(customer_id), (SELECT SUM(amount)
+									 FROM payment)
+FROM customer
+GROUP BY 1;
+
+
 

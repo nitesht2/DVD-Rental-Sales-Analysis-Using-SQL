@@ -3,6 +3,8 @@
 ## Introduction:
 
  As a SQL Consultant for DVD Rental Store I will run query on the database and answer the business questions. 
+ 
+ ## Data can be found [HERE](https://github.com/nitesht2/DVD-Rental-Sales-Analysis-Using-SQL/blob/main/dvdrental.tar)
 
 I used PostgreSQL on the DVD Rental database for analysis. Following task were done during the analysis:
 
